@@ -2,12 +2,14 @@ package com.ncjoshi.scmebeerservice.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ncjoshi.scmebeerservice.services.BeerService;
 import com.ncjoshi.scmebeerservice.web.model.BeerDto;
 import com.ncjoshi.scmebeerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,6 +32,9 @@ class BeerControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @MockBean
+    BeerService beerService;
 
     @BeforeEach
     void setUp() {
@@ -72,7 +77,7 @@ class BeerControllerTest {
                 .beerName("Fcuk beer")
                 .beerStyle(BeerStyleEnum.IPA)
                 .price(new BigDecimal("2.99"))
-                .upc(1287482323L)
+                .upc("1287482323")
                 .build();
     }
 
