@@ -1,6 +1,5 @@
 package com.ncjoshi.scmebeerservice.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ncjoshi.scmebeerservice.services.BeerService;
 import com.ncjoshi.scmebeerservice.web.model.BeerDto;
@@ -16,8 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,6 +42,8 @@ class BeerControllerTest {
     @Test
     void getBeer() throws Exception {
 
+        given(beerService.getBeerById(any())).willReturn(getValidBeerDto());
+
         mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -53,6 +54,8 @@ class BeerControllerTest {
         BeerDto beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
+        given(beerService.saveNewBeer(any())).willReturn(getValidBeerDto());
+
         mockMvc.perform(post("/api/v1/beer/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
@@ -61,6 +64,8 @@ class BeerControllerTest {
 
     @Test
     void updateBeer() throws Exception {
+
+        given(beerService.updateBeer(any(), any())).willReturn(getValidBeerDto());
 
         BeerDto beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
